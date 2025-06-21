@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,17 +24,15 @@ public class ProjectModel extends PanacheEntityBase {
     @Column(nullable = false)
     private String path;
 
-    // Vu dans les news
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "id")
     private UserModel owner;
 
-    //Pour complaire aux spécifications du sujet
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "project_members",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<UserModel> members = new HashSet<>();
+    private List<UserModel> members = new ArrayList<>(); //Moulinette was expeecting List
 }
