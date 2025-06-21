@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class NewUserRequest {
     private String login;
     private String password;
+    private Boolean isAdmin;
 }
