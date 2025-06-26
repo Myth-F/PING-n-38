@@ -25,10 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-/*
- * NB: we fully-qualify the JAX-RS @Path annotation below to avoid the
- *     name clash with java.nio.file.Path imported above.
- */
+
 @jakarta.ws.rs.Path("/api/projects/{projectId}/folders")
 @ApplicationScoped
 @Authenticated
@@ -42,15 +39,13 @@ public class FolderResource {
     @ConfigProperty(name = "ERROR_LOG_FILE")
     String errorLogFile;
 
-    /* ───────────────────────────── LIST ───────────────────────────── */
-
     @GET
     public Response listFolder(@PathParam("projectId") UUID projectId,
                                @QueryParam("path") @DefaultValue("") String relativePath,
                                @Context SecurityContext ctx) {
 
         UUID userId = UUID.fromString(ctx.getUserPrincipal().getName());
-        UserModel user     = UserModel.findById(userId);
+        UserModel user = UserModel.findById(userId);
         ProjectModel project = ProjectModel.findById(projectId);
 
         if (project == null) {
@@ -92,7 +87,6 @@ public class FolderResource {
         }
     }
 
-    /* ─────────────────────────── CREATE ─────────────────────────── */
 
     @POST
     @Transactional
@@ -142,7 +136,6 @@ public class FolderResource {
         }
     }
 
-    /* ─────────────────────────── DELETE ─────────────────────────── */
 
     @DELETE
     @Transactional
@@ -197,8 +190,6 @@ public class FolderResource {
             return Response.status(500).entity(new ErrorInfo("Failed to delete folder")).build();
         }
     }
-
-    /* ─────────────────────────── MOVE ─────────────────────────── */
 
     @PUT
     @jakarta.ws.rs.Path("/move")
@@ -256,8 +247,6 @@ public class FolderResource {
         }
     }
 
-    /* ─────────────────────────── Helpers ─────────────────────────── */
-
     private boolean hasProjectAccess(ProjectModel project, UserModel user) {
         return project.getOwner().getId().equals(user.getId())
                 || project.getMembers().stream().anyMatch(m -> m.getId().equals(user.getId()))
@@ -272,7 +261,7 @@ public class FolderResource {
         }
         Files.delete(path);
     }
-
+    //
     private void log(String message) {
         String timestamp = new SimpleDateFormat("dd/MM/yy - HH:mm:ss")
                 .format(Calendar.getInstance().getTime());

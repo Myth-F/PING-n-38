@@ -84,7 +84,7 @@ public class GitExecutor implements FeatureExecutor {
                 }
             }
         } catch (org.eclipse.jgit.errors.RepositoryNotFoundException e) {
-            throw new IllegalArgumentException("Not a git repository");
+            throw new IllegalArgumentException("Not a git repo");
         }
     }
 

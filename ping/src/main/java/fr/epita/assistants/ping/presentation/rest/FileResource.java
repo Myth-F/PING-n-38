@@ -26,11 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
-/**
- * REST endpoints that manipulate files inside a project.
- * Note: we fully-qualify the JAX-RS Path annotation to avoid the
- *       name clash with java.nio.file.Path.
- */
+
 @jakarta.ws.rs.Path("/api/projects/{projectId}/files")
 @ApplicationScoped
 @Authenticated
@@ -41,8 +37,6 @@ public class FileResource {
 
     @ConfigProperty(name = "ERROR_LOG_FILE")
     String errorLogFile;
-
-    /* ────────────────────────────────  READ  ──────────────────────────────── */
 
     @GET
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -90,8 +84,6 @@ public class FileResource {
             return Response.status(500).entity("Failed to read file").build();
         }
     }
-
-    /* ─────────────────────────────── CREATE ──────────────────────────────── */
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -143,8 +135,6 @@ public class FileResource {
             return Response.status(500).entity(new ErrorInfo("Failed to create file")).build();
         }
     }
-
-    /* ─────────────────────────────── DELETE ──────────────────────────────── */
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
@@ -202,7 +192,6 @@ public class FileResource {
         }
     }
 
-    /* ─────────────────────────────── UPLOAD ──────────────────────────────── */
 
     @POST
     @jakarta.ws.rs.Path("/upload")
@@ -252,8 +241,6 @@ public class FileResource {
             return Response.status(500).entity(new ErrorInfo("Failed to upload file")).build();
         }
     }
-
-    /* ─────────────────────────────── MOVE ──────────────────────────────── */
 
     @PUT
     @jakarta.ws.rs.Path("/move")
@@ -313,7 +300,6 @@ public class FileResource {
         }
     }
 
-    /* ────────────────────────────── Helpers ─────────────────────────────── */
 
     private boolean hasProjectAccess(ProjectModel project, UserModel user) {
         return project.getOwner().getId().equals(user.getId())

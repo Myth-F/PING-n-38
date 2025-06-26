@@ -210,7 +210,7 @@ public class ProjectResource {
             return Response.status(403).entity(new ErrorInfo("The user is not allowed to access this project")).build();
         }
 
-        // Delete project directory
+        // Delete
         try {
             deleteDirectory(new File(project.getPath()));
         } catch (Exception e) {
